@@ -1,5 +1,5 @@
 import express from 'express'
-import { studentsData, studentsEmail } from '../data/data.js'
+import { studentsData, studentsEmail } from '../functions/data.js'
 
 const app = express()
 const PORT = 3000
@@ -26,7 +26,6 @@ app.get('/:user',
     }
 )
 
-app.
 
 app.listen(PORT,() => {
     console.log(`Servidor corriendo en el puerto http://localhost:${PORT}`)
