@@ -18,7 +18,7 @@ try {
                 next()
             }
         },
-        async (req, res) => {
+        async (res) => {
             const result = await client.query('SELECT * FROM student')
             res.send(result.rows)
         }
@@ -30,7 +30,7 @@ try {
         (req, res, next) => {
             const { nameS, lastS, grade } = req.params
 
-            if (!nameS?.trim() || !lastS?.trim() || !grade?.trim()) return res.status(400).send('No se envio correctamente la informacion')
+            if (!nameS?.trim() || !lastS?.trim() || !grade?.trim()) return res.status(500).send('No se envio correctamente la informacion')
 
             next()
         },
@@ -47,9 +47,49 @@ try {
         }
     )
 
+    app.post('/check-email/:email',
+        // ==> middleware
+        (req, res, next ) => {
+            const email = req.params.email
+            if(!email?.trim()) return res.status(500).send('No se envio correctamente')
+            next()
+        },
+        async (req, res) => {
+            const email = req.params.email
+            const queryCheckEmail = await client.query('SELECT * FROM student WHERE email = $1', [email]) 
+            if(queryCheckEmail.rows.length > 0) {
+                const user = queryCheckEmail.rows[0]
+                if(!user.email_verified) { 
+                    const verifytoggle = await client.query('UPDATE student SET email_verified = TRUE WHERE id_student = $1', [user.id_student])
+                    if(verifytoggle) {
+                        res.send('Se ha confirmado el correo')
+                        // return res.redirect(`/check-email/${user.email}/password`)
+                    }
+                 } else {
+                    res.send('Ya se ha confirmado el correo anteriormente')
+                 }
+            }
+        }
+    )
+
+    app.post('/check-email/:email/password', 
+        // middleware
+        (req, res, next) => {
+            const { email, password } = req.body
+
+            if(!email?.trim() || !password?.trim()) return res.status(500).send('Envio incorrecto')
+            
+            next()
+        },
+        (req, res) => {
+
+        }
+    )
+
     app.listen(PORT, () => {
         console.log(`Servidor corriendo en el puerto http://localhost:${PORT}`)
     })
+
 
 } catch (err) {
     console.error('❌ Error al conectar a la base de datos:', err)
