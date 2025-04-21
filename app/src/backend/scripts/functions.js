@@ -2,6 +2,7 @@ const btnSignIn = document.getElementById('sign_in')
 
 function signin(e) {
     e.preventDefault()
+    // fetch to api
     fetch()
 }
 
