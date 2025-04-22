@@ -96,15 +96,15 @@ try {
         }
     )
 
-    // enpoint para logearse
-    app.post('/login/:email/:password', 
-        async (req, res, next) => {
+    // // enpoint para logearse
+    // app.post('/login/:email/:password', 
+    //     async (req, res, next) => {
 
-        },
-        async (req, res) => {
+    //     },
+    //     async (req, res) => {
 
-        }
-    )
+    //     }
+    // )
 
     // puerto
     app.listen(PORT, () => {
