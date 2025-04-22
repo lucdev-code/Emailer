@@ -1,7 +1,7 @@
 import express from 'express'
 import { client } from './connectionPool.js'
-import Cookies from 'js-cookie'
-
+import cookie from 'js-cookie'
+import cors from 'cors'
 
 const app = express()
 const PORT = 3000
@@ -9,16 +9,23 @@ const PORT = 3000
 try {
     // sirve para manejar rutas a interfaces html
     // app.use(express.static('src/front-end'))
+    const corsOptions = {
+        origin: 'http://localhost:5500/app/src/front-end/html', // Reemplaza con tu URL de frontend
+        credentials: true, // ← ¡IMPORTANTE! Permite cookies
+        methods: ['GET', 'POST']
+      };
+      
+      app.use(cors(corsOptions));
 
     // enpoint para checar que exista el email
-    app.post('/check-email/:email',
+    app.get('/check-email/:email',
         // ==> middleware
         (req, res, next ) => {
             // recuperamos el valor que se le asigno al parametro email
             const email = req.params.email
 
             // si el parametro ha sido envidado nullo, imprimimos el error
-            if(!email?.trim()) return res.status(500).send('No se envio correctamente')
+            if(!email?.trim()) return res.status(500).json({error: 'No se envio correctamente'})
             
             // implementar regex => TO-DO
 
@@ -36,12 +43,18 @@ try {
                         // crear variable de tiempo (current time)
                         const date = new Date()
                         // corregir el tiempo => TO-DO
-                        Cookies.set('emailUsertoSetPassword', email, {expires: date.getMinutes() + 3})
+                        cookie.set('emailUsertoSetPassword', email)
                         console.log(`Tienes de ${date.getMinutes()} a ${date.getMinutes() + 3} para establecer tu contraseña`)
+                        res.json ( {
+                            success: true,
+                            mail: email
+                        })
                     }
                  } else {
-                    // enviar a login directamente
-                 }
+                    // res.json
+                }
+            }else {
+                res.json('El correo no esta dentro de la base de datoss')
             }
         }
     )

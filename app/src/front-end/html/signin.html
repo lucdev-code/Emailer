@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesion</title>
     <link rel="stylesheet" href="../css/signin.css">
+    <script src="../../backend/scripts/verify.js" defer></script>
 </head>
+
 <body>
     <div class="bg-cover">
         <div class="container">
-            <h1>Verificar email</h1>
+            <h1>Verificar Email</h1>
             <form id="check-email">
-                <input type="email" placeholder="Correo" required minlength="1">
-                <button type="submit" class="submit-btn">Verificar</button>
+                <input type="email" placeholder="Email" id="email">
+                <button type="submit" class="submit-btn" id="sendEmail">Verificar</button>
             </form>
         </div>
     </div>
+
 </body>
+
 </html>
