@@ -96,9 +96,23 @@ try {
         }
     )
 
+    // enpoint para logearse
+    app.post('/login/:email/:password', 
+        async (req, res, next) => {
+
+        },
+        async (req, res) => {
+
+        }
+    )
+
+    // puerto
     app.listen(PORT, () => {
         console.log(`Servidor corriendo en el puerto http://localhost:${PORT}`)
     })
+
+
+
 
 
 } catch (err) {
