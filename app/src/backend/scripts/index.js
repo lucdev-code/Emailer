@@ -1,10 +1,7 @@
 const btnSignIn = document.getElementById('sign_in')
 
-function signin(e) {
-    e.preventDefault()
-    const user = 'admin'
-    // fetch to api
-    fetch(``)
+function signin() {
+    window.location.href = '../../front-end/html/signin.html'
 }
 
 
