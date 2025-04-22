@@ -15,7 +15,7 @@ try {
             // ejecutamos una query donde checamos si existe el usuario
             const queryAdmin = await client.query('SELECT * FROM admins WHERE name_a = $1', [userName])
 
-            // si el usuario no existe, mandamos el error
+            // si el usuario no existe, imprimimos el error
             if(queryAdmin.rows.length === 0) return res.send('Oups, hubo un problema!')
 
             // si el usuario no tiene rol de admin, imprimimos el error
