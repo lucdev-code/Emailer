@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+* {
+    margin: 0;
+}
+
+body {
+    font-family:  "Roboto Flex", sans-serif;
+}
+
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    /* margin-top: 1%; */
+    background-color: cadetblue;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+}
+
+.nav-bar, .img-school, .signin, .rol{
+    flex: 1;
+    text-align: center; /* centra el contenido dentro de cada bloque */
+}
