@@ -18,8 +18,10 @@ try {
                 next()
             }
         },
-        async (res) => {
+        async (req, res) => {
             const result = await client.query('SELECT * FROM student')
+            // console.log(result.rows)
+            if(!result) return res.send('Hubo un error al obtener los datos')
             res.send(result.rows)
         }
     )
