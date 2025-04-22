@@ -5,18 +5,24 @@ const app = express()
 const PORT = 3000
 
 try {
-    // endpoint admin
+    // endpoint admin (solo para visualizar datos)
     app.get('/:user',
         // => middleware
-        (req, res, next) => {
-            const user = req.params.user
-            if (user !== 'admin') {
-                setTimeout(() => {
-                    res.status(500).send('No tienes acceso')
-                }, 2000)
-            } else {
-                next()
-            }
+        async (req, res, next) => {
+            // obtenemos el parametro de user
+            const userName = req.params.user
+
+            // ejecutamos una query donde checamos si existe el usuario
+            const queryAdmin = await client.query('SELECT * FROM admins WHERE name_a = $1', [userName])
+
+            // si el usuario no existe, mandamos el error
+            if(queryAdmin.rows.length === 0) return res.send('Oups, hubo un problema!')
+
+            // si el usuario no tiene rol de admin, mandamos el error
+            if(queryAdmin.rows[0].rol !== 'admin') return res.send('No tienes acceso para ver esto').status(500) 
+            
+            // si pasa estas condiciones, podra salir del middleware
+            next()
         },
         async (req, res) => {
             const result = await client.query('SELECT * FROM student')
