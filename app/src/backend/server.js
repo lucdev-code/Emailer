@@ -18,15 +18,17 @@ try {
             // si el usuario no existe, mandamos el error
             if(queryAdmin.rows.length === 0) return res.send('Oups, hubo un problema!')
 
-            // si el usuario no tiene rol de admin, mandamos el error
+            // si el usuario no tiene rol de admin, imprimimos el error
             if(queryAdmin.rows[0].rol !== 'admin') return res.send('No tienes acceso para ver esto').status(500) 
             
             // si pasa estas condiciones, podra salir del middleware
             next()
         },
         async (req, res) => {
+            // ejecutamos una query para visualizar todos los datos de estudiantes
             const result = await client.query('SELECT * FROM student')
-            // console.log(result.rows)
+
+            // si obtenemos un error al obtener los datos, imprimimos el error
             if(!result) return res.send('Hubo un error al obtener los datos')
             res.send(result.rows)
         }
