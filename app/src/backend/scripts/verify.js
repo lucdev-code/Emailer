@@ -9,7 +9,8 @@ async function fetchApiCheckEmail(e) {
 
     try {
         // Codificamos el email para URL
-        const response = await fetch(`http://localhost:3000/check-email/${email}`, {credentials: 'include'});
+        const encodedEmail = encodeURIComponent(email);
+        const response = await fetch(`http://localhost:3000/check-email/${encodedEmail}`);
         
         // Verificamos si la respuesta fue exitosa (status 200-299)
         if (!response.ok) {
@@ -18,15 +19,12 @@ async function fetchApiCheckEmail(e) {
         }
         
         const data = await response.json();
-        console.log('Respuesta del servidor:', data);
+        console.log(`Respuesta del servidor: ${data}`);
         
-        if (data.success) {
-            alert(data.message || `Email: ${data.mail}`);
-            // Guardar cookie si es necesario
-            // Cookies.set('emailUsertoSetPassword', data.email);
-        } else {
-            alert(data.error || 'Ocurrió un error al verificar el email');
-        }
+        if (data.success !== true) return alert(data.message || 'Email no se ha verificado correctamente');
+         
+        if (data.verified !== true) return window.location.href = '../../front-end/html/setPassword.html'
+        else return window.location.href = '../../front-end/html/signin.html'
         
     } catch (error) {
         console.error('Error al verificar el email:', error);
@@ -35,11 +33,11 @@ async function fetchApiCheckEmail(e) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('check-email')
-    const btnsendEmail = document.getElementById('sendEmail')
+  const form = document.getElementById('check-email')
+  const btnsendEmail = document.getElementById('sendEmail')
 
-    if (!form || !btnsendEmail) return console.error('No existe el elemento form')
+  if (!form || !btnsendEmail) return console.error('No existe el elemento form')
 
-    btnsendEmail.addEventListener('click', fetchApiCheckEmail)
+  btnsendEmail.addEventListener('click', fetchApiCheckEmail)
 
 })
