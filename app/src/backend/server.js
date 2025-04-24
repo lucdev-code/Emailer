@@ -11,7 +11,7 @@ try {
     const allowedOrigins = ['http://localhost:5500', 'http://127.0.0.1:5500'];
     app.use(cookieParser());
     app.use(cors(
-        {  
+        {
             origin: allowedOrigins,
             credentials: true,
             allowedHeaders: ['Content-Type', 'Authorization'],
@@ -26,33 +26,32 @@ try {
             // if(emailCookie) console.log('Encontrada la cookie')
             const email = req.params.email;
             if (!email?.trim()) return res.status(400).json({ error: 'Email no proporcionado' });
-            
+
             const regexEmail = /^[a-z.]+@school\.dev$/
-            if(regexEmail.test(email)) next()
-            else return res.status(400).json( {error: 'Email invalido'} )
+            if (regexEmail.test(email)) next()
+            else return res.status(400).json({ error: 'Email invalido' })
         },
         async (req, res) => {
             try {
                 const email = req.params.email;
 
                 const queryCheckEmail = await client.query('SELECT * FROM student WHERE email = $1', [email])
-                if(queryCheckEmail.rows.length > 0) {
+                if (queryCheckEmail.rows.length > 0) {
                     const userInfo = queryCheckEmail.rows[0]
 
-                    if(userInfo.email_verified === true) return res.json( { success: true, mail: email, verified: true} )
+                    if (userInfo.email_verified === true) return res.json({ success: true, mail: email, verified: true })
                     else {
                         const queryVerifiedUpdate = await client.query('UPDATE student SET email_verified = $1 WHERE email = $2', [true, email])
                         if (queryVerifiedUpdate) {
                             res.cookie('user_email', email, {
-                                httpOnly: true,            // solo accesible desde el servidor
                                 maxAge: 3 * 60 * 1000,
-                                path: '/' // pon `true` solo si estás usando HTTPS
-                              });
-                            return res.json( { success: true, mail: email, verified: false} )
-                        } 
+                                path: '/',
+                            });
+                            return res.json({ success: true, mail: email, verified: false })
+                        }
                     }
-                }else {
-                    return res.json ({
+                } else {
+                    return res.json({
                         success: false,
                         mail: email,
                         message: 'El email no se ha encontrado'
@@ -67,15 +66,37 @@ try {
             }
         }
     )
-    app.get('/set-password', 
-         async (req, res) => {
-            const emailCookie = await req.cookies.user_email
-            console.log(emailCookie)
-
-            if(emailCookie) res.json({message: 'Si se envio la cookie'})
-            else  return res.json({ message: 'La cookie no se encontró' }); 
+    app.get('/get-cookie', async (req, res) => {
+        const emailCookie = req.cookies.user_email;
+    
+        if (emailCookie) {
+            return res.json({ message: 'Cookie ok', status: 'OK', email: emailCookie });
+        } else {
+            return res.json({ message: 'Cookie off', status: 'OFF' });
         }
-    )
+    });
+
+    app.post('/add-password', 
+         (req, res, next) => {
+        const email = req.cookies.user_email;
+        const pass = req.body.password;
+    
+        if (!email || !pass) {
+            return res.status(400).json({ error: 'Faltan datos' });
+        } 
+
+        next()
+        },
+        async (req, res) => {
+            const email = req.cookies.user_email;
+            const pass = req.body.password;
+            const addUser = client.query('UPDATE student SET password = $1 WHERE email = $2', [pass, email])
+            
+        }
+    
+    );
+
+
 
     // endpoint admin (solo para visualizar datos)
     app.get('/admin/:user',

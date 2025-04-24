@@ -8,9 +8,7 @@ async function fetchApiCheckEmail(e) {
     }
 
     try {
-        // Codificamos el email para URL
-        const encodedEmail = encodeURIComponent(email);
-        const response = await fetch(`http://localhost:3000/check-email/${encodedEmail}`, {
+        const response = await fetch(`http://localhost:3000/check-email/${email}`, {
             method: 'GET', credentials: 'include'});
         
         // Verificamos si la respuesta fue exitosa (status 200-299)
@@ -22,6 +20,7 @@ async function fetchApiCheckEmail(e) {
         const data = await response.json();
         console.log(`Respuesta del servidor: ${data}`);
         
+
         if (data.success !== true) return alert(data.message || 'Email no se ha verificado correctamente');
          
         if (data.verified !== true) return window.location.href = '../../front-end/html/setPassword.html'
