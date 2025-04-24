@@ -10,7 +10,8 @@ async function fetchApiCheckEmail(e) {
     try {
         // Codificamos el email para URL
         const encodedEmail = encodeURIComponent(email);
-        const response = await fetch(`http://localhost:3000/check-email/${encodedEmail}`);
+        const response = await fetch(`http://localhost:3000/check-email/${encodedEmail}`, {
+            method: 'GET', credentials: 'include'});
         
         // Verificamos si la respuesta fue exitosa (status 200-299)
         if (!response.ok) {
