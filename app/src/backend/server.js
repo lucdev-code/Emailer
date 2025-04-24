@@ -49,6 +49,9 @@ try {
                             });
                             return res.json({ success: true, mail: email, verified: false })
                         }
+                        if(userInfo.password !== null) {
+                            return res.json({ success: true, mail: email, verified: true })
+                        }
                     }
                 } else {
                     return res.json({
@@ -91,7 +94,9 @@ try {
             const email = req.cookies.user_email;
             const pass = req.body.password;
             const addUser = client.query('UPDATE student SET password = $1 WHERE email = $2', [pass, email])
-            
+
+            if(addUser) return res.json({status:'OK', message: 'Usuario ha agregado su contrasena'})
+            else return res.json({status: 'ERROR', message: 'Hubo un error al setear la contrasena'})
         }
     
     );
