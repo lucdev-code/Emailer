@@ -44,10 +44,9 @@ try {
                         const queryVerifiedUpdate = await client.query('UPDATE student SET email_verified = $1 WHERE email = $2', [true, email])
                         if (queryVerifiedUpdate) {
                             res.cookie('user_email', email, {
-                                // httpOnly: true,            // solo accesible desde el servidor
-                                maxAge: 3 * 60 * 1000,     // 3 minutos en milisegundos
-                                sameSite: 'lax',
-                                domain: 'localhost'              // pon `true` solo si estás usando HTTPS
+                                httpOnly: true,            // solo accesible desde el servidor
+                                maxAge: 3 * 60 * 1000,
+                                path: '/' // pon `true` solo si estás usando HTTPS
                               });
                             return res.json( { success: true, mail: email, verified: false} )
                         } 
@@ -69,11 +68,12 @@ try {
         }
     )
     app.get('/set-password', 
-         (req, res) => {
-            const emailCookie =  req.cookies.user_email
+         async (req, res) => {
+            const emailCookie = await req.cookies.user_email
             console.log(emailCookie)
 
             if(emailCookie) res.json({message: 'Si se envio la cookie'})
+            else  return res.json({ message: 'La cookie no se encontró' }); 
         }
     )
 
