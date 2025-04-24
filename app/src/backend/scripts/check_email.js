@@ -24,7 +24,7 @@ async function fetchApiCheckEmail(e) {
         if (data.success !== true) return alert(data.message || 'Email no se ha verificado correctamente');
          
         if (data.verified !== true) return window.location.href = '../../front-end/html/setPassword.html'
-        else return window.location.href = '../../front-end/html/signin.html'
+        // else return window.location.href = '../../front-end/html/signin.html'
         
     } catch (error) {
         console.error('Error al verificar el email:', error);
