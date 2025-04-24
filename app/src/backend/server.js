@@ -37,7 +37,7 @@ try {
                         const queryVerifiedUpdate = await client.query('UPDATE student SET email_verified = $1 WHERE email = $2', [true, email])
                         if (queryVerifiedUpdate) {
                             res.cookie('user_email', email, {
-                                httpOnly: true,            // solo accesible desde el servidor
+                                // httpOnly: true,            // solo accesible desde el servidor
                                 maxAge: 3 * 60 * 1000,     // 3 minutos en milisegundos
                                 sameSite: 'lax',
                                 secure: false              // pon `true` solo si estás usando HTTPS

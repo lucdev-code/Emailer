@@ -1,7 +1,7 @@
 const btnSignIn = document.getElementById('sign_in')
 
 function signin() {
-    window.location.href = '../../front-end/html/signin.html'
+    window.location.href = '../../front-end/html/check_email.html'
 }
 
 
