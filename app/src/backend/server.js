@@ -6,17 +6,24 @@ import cookieParser from 'cookie-parser'
 const app = express()
 const PORT = 3000
 
-try {
 
+try {
+    const allowedOrigins = ['http://localhost:5500', 'http://127.0.0.1:5500'];
     app.use(cookieParser());
-    app.use(cors( {
-        credentials: true
-    }));
+    app.use(cors(
+        {  
+            origin: allowedOrigins,
+            credentials: true,
+            allowedHeaders: ['Content-Type', 'Authorization'],
+        }
+    ));
     app.use(express.json())
 
     // enpoint para checar que exista el email
     app.get('/check-email/:email',
         (req, res, next) => {
+            // const emailCookie = req.cookies.user_email
+            // if(emailCookie) console.log('Encontrada la cookie')
             const email = req.params.email;
             if (!email?.trim()) return res.status(400).json({ error: 'Email no proporcionado' });
             
@@ -40,7 +47,7 @@ try {
                                 // httpOnly: true,            // solo accesible desde el servidor
                                 maxAge: 3 * 60 * 1000,     // 3 minutos en milisegundos
                                 sameSite: 'lax',
-                                secure: false              // pon `true` solo si estás usando HTTPS
+                                domain: 'localhost'              // pon `true` solo si estás usando HTTPS
                               });
                             return res.json( { success: true, mail: email, verified: false} )
                         } 
@@ -62,17 +69,11 @@ try {
         }
     )
     app.get('/set-password', 
-        (req, res, next) => {
-            const emailCookie = req.cookies.user_email
+         (req, res) => {
+            const emailCookie =  req.cookies.user_email
+            console.log(emailCookie)
 
-            if(!emailCookie) return res.json ({message: 'No se encontro la cookie'})
-            
-            next()
-        },
-        (req, res) => {
-            const emailCookie = req.cookies.user_email
-
-            res.json ({ emailCookie})
+            if(emailCookie) res.json({message: 'Si se envio la cookie'})
         }
     )
 
