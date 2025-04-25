@@ -39,7 +39,13 @@ try {
                 if (queryCheckEmail.rows.length > 0) {
                     const userInfo = queryCheckEmail.rows[0]
 
-                    if (userInfo.email_verified === true) return res.json({ success: true, mail: email, verified: true })
+                    if (userInfo.email_verified === true) {
+                        res.cookie('user_email', email, {
+                            maxAge: 3 * 60 * 1000,
+                            path: '/',
+                        });
+                        return res.json({ success: true, mail: email, verified: true })
+                    } 
                     else {
                         const queryVerifiedUpdate = await client.query('UPDATE student SET email_verified = $1 WHERE email = $2', [true, email])
                         if (queryVerifiedUpdate) {
