@@ -27,13 +27,19 @@ body, html {
     font-size: 1.5rem;
     margin-bottom: 1rem;
 }
-.container input, .container textarea {
+.container input {
     width: 90%;
     padding: 0.5rem;
     margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 0.25rem;
 }
+
+.mail {
+    text-align: center;
+    background-color: #ffe2b5;
+}
+
 .container button {
     width: auto;
     padding: 0.5rem;
