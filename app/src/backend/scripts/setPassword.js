@@ -1,10 +1,9 @@
 async function sendPassword(e) {
     e.preventDefault()
 
-    const email = document.getElementById('emailStudent').value
     const password = document.getElementById('password').value
 
-    if (!email?.trim() || !password?.trim()) return console.log('Los datos no han sido llenados correctamente')
+    if (!password?.trim()) return console.log('Los datos no han sido llenados correctamente')
 
     const response = await fetch('http://localhost:3000/add-password', {
         method: 'POST',
@@ -16,7 +15,9 @@ async function sendPassword(e) {
     if (!response.ok) return console.log('Error en la petición');
 
     const result = await response.json();
-    console.log(result);
+    
+    if(result.status !== 'OK') return alert('No se completo la accion')
+    else window.location.href = '../../front-end/html/signin.html'
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
