@@ -31,8 +31,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     const info = await getCookie.json()
 
-    localStorage.setItem('COOKIE_OK', info.email)
-
     if (info.status !== 'OK') {
         alert('No tienes permiso para estar aqui')
         window.location.href = '../../front-end/html/index.html'
