@@ -29,7 +29,7 @@ try {
 
             const regexEmail = /^[a-z.]+@school\.dev$/
             if (regexEmail.test(email)) next()
-            else return res.status(400).json({ error: 'Email invalido' })
+            else return res.status(400).json({ error: 'El email no cuenta con el formato esperado' })
         },
         async (req, res) => {
             try {
@@ -106,6 +106,29 @@ try {
         }
     
     );
+
+    app.post('/login', 
+        (req, res, next) => {
+            const email = req.cookies.user_email;
+            const pass = req.body.password;
+
+            if(!email || !pass) return res.json({message: 'No se encontraron las credenciales'})
+            
+            next()
+        },
+        async (req, res) => {
+            const email = req.cookies.user_email;
+            const pass = req.body.password;
+
+            const queryLogin = await client.query('SELECT * FROM student WHERE email = $1 AND password = $2', [email, pass])
+
+            if(queryLogin.rows.length > 0) {
+                res.json({status: 'OK', message: 'Encontrado'})
+            }
+            else res.json({status: 'NotFIND', message: 'No se ha encontrado el usuario'})
+           
+        }
+    )
 
 
 
