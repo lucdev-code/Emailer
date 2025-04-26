@@ -18,8 +18,8 @@ async function fecthEnpointVerifyEmail(e) {
 
         const result = await response.json()
         if(result.status !== 'OK') return alert('No se ha encontrado el correo que se ingreso, intente de nuevo')
-        if(result.email_verified !== true) return console.log('No se ha verificado el correo')
-        else return console.log('Si se verifico el correo')
+        if(result.email_verified !== true) return window.location.href = '../../front-end/html/setPassword.html'
+        else return window.location.href = '../../front-end/html/signin.html'
 
     } catch (error) {
 
