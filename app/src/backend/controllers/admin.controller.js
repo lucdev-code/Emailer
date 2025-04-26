@@ -14,5 +14,5 @@ export const getStudents = async (req, res) => {
 
 
 export const addStudent = async (req, res) => {
-
+    
 }

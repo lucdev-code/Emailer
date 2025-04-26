@@ -1,9 +1,11 @@
 import express from 'express'
-import { checkAdmin } from '../middlewares/admin_middleware.js'
+import { checkAdmin_middleware } from '../middlewares/admin_middleware.js'
 import { getStudents } from '../controllers/admin.controller.js'
 
 const router = express.Router()
 
-router.get('/getStudents/:admin', checkAdmin, getStudents)
+// agregamos el metodo que realizara la ruta, seguida de su middleware, y por ultimo el enpoint real
+router.get('/getStudents/:admin', checkAdmin_middleware, getStudents)
+
 
 export default router
