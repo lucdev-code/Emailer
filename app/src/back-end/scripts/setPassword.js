@@ -1,44 +1,48 @@
 async function sendPassword(e) {
     e.preventDefault()
 
-    const password = document.getElementById('password').value
+    // const password = document.getElementById('password').value
 
-    if (!password?.trim()) return console.log('Los datos no han sido llenados correctamente')
+    // if (!password?.trim()) return console.log('Los datos no han sido llenados correctamente')
 
-    const response = await fetch('http://localhost:3000/add-password', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password })
-    });
+    // const response = await fetch('http://localhost:3000/add-password', {
+    //     method: 'POST',
+    //     credentials: 'include',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({ password })
+    // });
 
-    if (!response.ok) return console.log('Error en la petición');
+    // if (!response.ok) return console.log('Error en la petición');
 
-    const result = await response.json();
+    // const result = await response.json();
     
-    if(result.status !== 'OK') return alert('No se completo la accion')
-    else window.location.href = '../../front-end/html/signin.html'
+    // if(result.status !== 'OK') return alert('No se completo la accion')
+    // else window.location.href = '../../front-end/html/signin.html'
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const getCookie = await fetch('http://localhost:3000/get-cookie', {
-        method: 'GET',
-        credentials: 'include',
-    })
-
-    if (!getCookie.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Error al verificar el email');
+   
+    const searchCookie = await fetch('http://localhost:3000/auth/student/cookie', 
+        {
+            credentials: 'include',
+            method: 'GET' 
+        }
+    )
+    
+    if(!searchCookie.ok) {
+        const errorData = await searchCookie.json();
+            throw new Error(errorData.error || 'Error al verificar el email');
     }
-    const info = await getCookie.json()
 
-    if (info.status !== 'OK') {
-        alert('No tienes permiso para estar aqui')
+    const infoCookie = await searchCookie.json()
+
+    if (infoCookie.status !== 'OK') {
+        console.log(infoCookie.status)
         window.location.href = '../../front-end/html/index.html'
     }
 
     const inputEmail = document.getElementById('emailStudent')
-    inputEmail.value = info.email
+    inputEmail.value = infoCookie.mail
 
     const form_password = document.getElementById('set-pass')
 
