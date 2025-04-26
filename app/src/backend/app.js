@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import adminRoutes from './routes/admin.routes.js'
+import authRoutes from './routes/auth.routes.js'
 
 const app = express()
 const PORT = 3000
@@ -21,6 +22,7 @@ const PORT = 3000
 try {
    
     app.use('/admin', adminRoutes)
+    app.use('/auth', authRoutes)
    
     // puerto
     app.listen(PORT, () => {
