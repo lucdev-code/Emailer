@@ -5,7 +5,7 @@ import { verifyEmailStudent } from '../controllers/auth.controller.js'
 const router = express.Router()
 
 // agregamos el metodo que realizara la ruta, seguida de su middleware, y por ultimo el enpoint real
-router.post('/student/validateEmail', verifyEmailStudent_middleware ,verifyEmailStudent)
+router.post('/student/validateEmail', verifyEmailStudent_middleware, verifyEmailStudent)
 
 
 

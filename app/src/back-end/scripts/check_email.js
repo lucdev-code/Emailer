@@ -17,7 +17,9 @@ async function fecthEnpointVerifyEmail(e) {
         if (!response.ok) return alert('Intentalo mas tarde')
 
         const result = await response.json()
-        console.log(result)
+        if(result.status !== 'OK') return alert('No se ha encontrado el correo que se ingreso, intente de nuevo')
+        if(result.email_verified !== true) return console.log('No se ha verificado el correo')
+        else return console.log('Si se verifico el correo')
 
     } catch (error) {
 
