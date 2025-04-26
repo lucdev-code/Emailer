@@ -3,15 +3,15 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const { Client } = pg
+const { Pool } = pg
  
-export const client = new Client({
+export const pool = new Pool({
   user: process.env.PG_USER,
   password: process.env.PG_PASSWORD,
   host: process.env.PG_HOST,
   port: process.env.PG_PORT,
   database: process.env.PG_DATABASE,
 })
-await client.connect()
+await pool.connect()
 
 console.log('✅ Conectado a PostgreSQL')
