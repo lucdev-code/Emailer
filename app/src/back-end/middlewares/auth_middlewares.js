@@ -14,3 +14,20 @@ export const verifyEmailStudent_middleware = async (req, res, next) => {
     
     next()
 }
+
+export const setPassword_middleware = (req, res, next) => {
+    const password = req.body.password
+
+    if(!password?.trim()) return res.json({message: 'No se ha enviado correctamente la informacion', status: 'FAIL'})
+
+    next()
+}
+
+
+export const getCookie_middleware = (req, res, next) => {
+    const email = req.cookies.user_email
+
+    if(!email) return res.json({message: 'No se ha encontrado la cookie', status: 'FAIL'})
+
+    next()
+}
