@@ -12,13 +12,42 @@ body {
     flex-direction: row;
     width: 100%;
     /* margin-top: 1%; */
-    background-color: cadetblue;
+    background-color: rgb(0, 0, 0);
     align-items: center;
     justify-content: center;
     height: 50px;
 }
 
 .nav-bar, .img-school, .signin, .rol{
+    color: white;
     flex: 1;
     text-align: center; /* centra el contenido dentro de cada bloque */
+}
+
+.img {
+    width: 150px;
+    height: 50px;
+    user-select: none;
+}
+
+.rol {
+    user-select: none;
+}
+
+.btnIniciar {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    width: 100px;
+    height: 25px;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+.btnIniciar:hover {
+    transition: 0.6s;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border: 1px solid rgb(255, 254, 254);
+    border-radius: 10px;
 }
