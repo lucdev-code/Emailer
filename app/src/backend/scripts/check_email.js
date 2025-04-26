@@ -1,44 +1,35 @@
-async function fetchApiCheckEmail(e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value.trim();
+async function fecthEnpointVerifyEmail(e) {
+    e.preventDefault()
+    const email = document.getElementById('email').value.trim()
 
-    if (!email) {
-        alert('Debes ingresar un email válido');
-        return;
-    }
+    if (!email) return alert('Debes ingresar un correo')
 
     try {
-        const response = await fetch(`http://localhost:3000/check-email/${email}`, {
-            method: 'GET', credentials: 'include'
-        });
-        
-        // Verificamos si la respuesta fue exitosa (status 200-299)
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Error al verificar el email');
-        }
-        
-        const data = await response.json();
-        console.log(`Respuesta del servidor: ${data}`);
-        
+        const response = await fetch('http://localhost:3000/auth/student/validateEmail',
+            {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            }
+        )
 
-        if (data.success !== true) return alert(data.message || 'Email no se ha verificado correctamente');
-         
-        if (data.verified !== true) return window.location.href = '../../front-end/html/setPassword.html'
-        else return window.location.href = '../../front-end/html/signin.html'
-        
+        if (!response.ok) return alert('Intentalo mas tarde')
+
+        const result = await response.json()
+        console.log(result)
+
     } catch (error) {
-        console.error('Error al verificar el email:', error);
-        alert(error.message || 'Error al conectar con el servidor');
+
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('check-email')
-  const btnsendEmail = document.getElementById('sendEmail')
+    const form = document.getElementById('check-email')
+    const btnsendEmail = document.getElementById('sendEmail')
 
-  if (!form || !btnsendEmail) return console.error('No existe el elemento form')
+    if (!form || !btnsendEmail) return console.error('No existe el elemento form')
 
-  btnsendEmail.addEventListener('click', fetchApiCheckEmail)
+    btnsendEmail.addEventListener('click', fecthEnpointVerifyEmail)
 
 })
