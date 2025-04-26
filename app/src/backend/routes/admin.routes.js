@@ -1,5 +1,5 @@
 import express from 'express'
-import { checkAdmin_middleware } from '../middlewares/admin_middleware.js'
+import { checkAdmin_middleware } from '../middlewares/admin_middlewares.js'
 import { getStudents } from '../controllers/admin.controller.js'
 
 const router = express.Router()
