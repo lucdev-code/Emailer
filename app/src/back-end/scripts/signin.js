@@ -16,9 +16,8 @@ async function signin(e) {
     
         const result = await response.json();
         
-        if(result.status !== 'OK') return console.log(result.message)
-        else console.log(result.message)
-        // else return window.location.href = '../../front-end/html/index.html'
+        if(result.status !== 'OK') return alert('Credenciales incorrectas, ingresa nuevamente')
+        else return window.location.href = '../../front-end/html/index.html'
 }
 
 
