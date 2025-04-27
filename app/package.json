@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd src/backend && node connectionPool.js"
+    "start": "cd src/back-end && node app.js "
   },
   "keywords": [],
   "author": "",
