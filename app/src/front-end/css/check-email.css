@@ -45,3 +45,7 @@ body, html {
     background-color: #007bff;
     color: white;
 }
+input:active, input:focus {
+    box-shadow: 0 0 5px 2px rgba(0, 17, 255, 0.5); /* X, Y, blur, spread, color */
+    outline: none; /* opcional, para quitar el borde azul feo de navegadores */
+}
