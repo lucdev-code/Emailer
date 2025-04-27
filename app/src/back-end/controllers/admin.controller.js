@@ -2,6 +2,10 @@ import { pool } from '../bd/connectionPool.js';
 import dotenv from 'dotenv'
 dotenv.config()
 
+export const login_admin = async (req, res) => {
+  // logica
+}
+
 export const getStudents = async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM student');
